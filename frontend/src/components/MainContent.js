@@ -1,15 +1,15 @@
 import SideBar from "./SideBar"
-import Main from "./Main"
 
-function MainContent({ foodTrucks, getFoodTrucks }){
+function MainContent({ foodTrucks, getFoodTrucks, isError, fetchedRes }){
 
   return (
     <>
     <SideBar
       foodTrucks={foodTrucks}
       getFoodTrucks={getFoodTrucks}
-      />
-    <Main foodTrucks={foodTrucks} />
+      isError = {isError}
+      fetchedRes={fetchedRes}
+    />
     </>
   )
 }

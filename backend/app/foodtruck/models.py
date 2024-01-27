@@ -18,7 +18,7 @@ class FoodTruck(models.Model):
 
   def getDistance(self, lat, lon):
     distance =  getDistanceUtil(radians(self.latitude), radians(self.longitude), radians(lat), radians(lon))
-    print(distance, self.latitude, self.longitude)
+    # print(distance, self.latitude, self.longitude)
     return distance
 
   def __str__(self):

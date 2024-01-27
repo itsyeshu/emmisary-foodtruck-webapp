@@ -1,55 +1,43 @@
-import FoodTruck from "./FoodTruck"
+import useGeoLocation from "../hooks/useGeoLocation"
 
-function FetchFoodTrucks ({ getFoodTrucks }){
-  const handleClick = (e) => {
-    // Request location details
-    const lat = 0, lon = 0
+import FoodTrucks from "./FoodTrucks"
+import SearchFoodTrucks from "./SearchFoodTrucks"
 
-    // Call getFoodTrucks
-    getFoodTrucks(lat, lon)
+
+function SideBar({ foodTrucks, getFoodTrucks, isError, fetchedRes }){
+  const { locationError, isLocationLoading, setIsLocationRequested, isLocationRequested } = useGeoLocation(getFoodTrucks)
+
+  let statusMessage = null
+  if(locationError){
+    statusMessage = <p className="status-message para-error">{locationError}</p>
+  }else if(isLocationRequested){
+    statusMessage = <p className="status-message">Location request requested</p>
+  }else if(isLocationLoading){
+    statusMessage = <p className="status-message">Fetching Location ...</p>
+  }else if(isError){
+    statusMessage = <p className="status-message para-error">{isError}</p>
   }
-
-  return <>
-    <button 
-      className = "button-main"
-      onClick = {handleClick}
-    >
-      Refresh Trucks
-    </button>
-  </>
-}
-
-function FoodTrucks({ foodTrucks }){
-  const noFoodTrucks = !foodTrucks || !foodTrucks?.length
-
-  if(noFoodTrucks){
-    return <>
-    <p>No food trucks near you!</p>
-    </>
-  }
-  return <>
-    <p>Showing <b>{foodTrucks.length}</b> results</p>
-    <ul className="ul-no_style">
-      {
-        foodTrucks.map(foodTruck => (
-          <FoodTruck
-            key={foodTruck.id}
-            foodTruck={foodTruck}
-          />
-        ))
-      }
-    </ul>
-  </>
-}
-
-function SideBar({ foodTrucks, getFoodTrucks }){
   return (
-    <>
-      <FetchFoodTrucks
-        getFoodTrucks={getFoodTrucks}
+    <section
+      className="main"
+    >
+      <div className="wrapper">
+        <SearchFoodTrucks
+          getFoodTrucks={getFoodTrucks}
+          isLocationRequested
+          setIsLocationRequested={setIsLocationRequested}
         />
-      <FoodTrucks foodTrucks={foodTrucks} />
-    </>
+        
+        {statusMessage}
+        
+        {!isError &&
+          <FoodTrucks
+          foodTrucks={foodTrucks}
+          fetchedRes={fetchedRes}
+          />
+        }
+      </div>
+    </section>
   )
 }
 

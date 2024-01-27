@@ -4,15 +4,28 @@ import './App.css';
 import Header from "./components/Header"
 import Footer from "./components/Footer"
 import MainContent from "./components/MainContent"
+import axios from "./api/axios"
 
+const API_POST_FOODTRUCKS = "/foodtrucksnearme/?format=json"
 
 function App() {
   const [ foodTrucks, setFoodTrucks ] = useState([])
-  const [ isLoading, setIsLoding ] = useState(true)
-  
-  const getFoodTrucks = () => {
-    console.log("Here")
-    // setFoodTrucks={setFoodTrucks}
+  const [ isLoading, setIsLoding ] = useState(false)
+  const [ fetchedRes, setFetchedRes ] = useState(false)
+  const [ isError, setIsError ] = useState(null)
+
+  const getFoodTrucks = async (lat, lon) => {
+    try{
+      const request = await axios.post(API_POST_FOODTRUCKS, {
+        "latitude" : lat,
+        "longitude" : lon
+      })
+      const data = request.data
+      setFoodTrucks(data.data.foodTrucks)
+    } catch(err){
+      console.log(err)
+      setIsError(err?.message || "Unknown error occured")
+    }
   }
 
   return (
@@ -22,6 +35,9 @@ function App() {
         className="main"
         foodTrucks={foodTrucks}
         getFoodTrucks = {getFoodTrucks}
+        isError = {isError}
+        fetchedRes={fetchedRes}
+        
         />
       <Footer />
     </div>

@@ -29,7 +29,7 @@ SECRET_KEY = 'django-insecure-py9q6-2!7^mn#x)m3p85yvq@a_#lg@7u*sl#e#h^trlzxfjw!0
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False if env.get('DEBUG', 'True') == "False" else True
 
-ALLOWED_HOSTS = ['localhost']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -49,8 +49,16 @@ INSTALLED_APPS += [
   'foodtruck'
 ]
 
+CORS_ORIGIN_WHITELIST = [
+    'http://localhost:3000',
+    'http://localhost:8000'
+]
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+
+    'corsheaders.middleware.CorsMiddleware',
+
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
