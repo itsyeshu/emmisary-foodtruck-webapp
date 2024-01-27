@@ -1,5 +1,5 @@
 import json
-from rest_framework import viewsets
+from rest_framework import viewsets, permissions
 from rest_framework.response import Response
 from .models import FoodTruck
 from .serializers import FoodTruckSerializer
@@ -8,8 +8,8 @@ class FoodTruckViewSet(viewsets.ModelViewSet):
   queryset = FoodTruck.objects.all()
   serializer_class = FoodTruckSerializer
 
-  # Access class
-  access_class = [ ]
+  # Permissions class
+  permission_classes = [ permissions.IsAdminUser ]
 
 class FoodTruckNearMeViewSet(viewsets.ViewSet):
   # POST request
