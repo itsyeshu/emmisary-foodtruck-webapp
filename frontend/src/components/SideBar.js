@@ -5,17 +5,13 @@ import SearchFoodTrucks from "./SearchFoodTrucks"
 
 
 function SideBar({ foodTrucks, getFoodTrucks, isError, fetchedRes }){
-  const { locationError, isLocationLoading, setIsLocationRequested, isLocationRequested } = useGeoLocation(getFoodTrucks)
+  const { locationError, isLocationLoading, setIsLocationRequested } = useGeoLocation(getFoodTrucks)
 
   let statusMessage = null
   if(locationError){
     statusMessage = <p className="status-message para-error">{locationError}</p>
-  }else if(isLocationRequested){
-    statusMessage = <p className="status-message">Location request requested</p>
-  }else if(isLocationLoading){
-    statusMessage = <p className="status-message">Fetching Location ...</p>
   }else if(isError){
-    statusMessage = <p className="status-message para-error">{isError}</p>
+    statusMessage = <p className="status-message para-error">{isError}, please try again</p>
   }
   return (
     <section
@@ -24,7 +20,6 @@ function SideBar({ foodTrucks, getFoodTrucks, isError, fetchedRes }){
       <div className="wrapper">
         <SearchFoodTrucks
           getFoodTrucks={getFoodTrucks}
-          isLocationRequested
           setIsLocationRequested={setIsLocationRequested}
         />
         
@@ -34,6 +29,7 @@ function SideBar({ foodTrucks, getFoodTrucks, isError, fetchedRes }){
           <FoodTrucks
           foodTrucks={foodTrucks}
           fetchedRes={fetchedRes}
+          isLocationLoading={isLocationLoading}
           />
         }
       </div>

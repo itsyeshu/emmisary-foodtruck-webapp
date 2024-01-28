@@ -29,7 +29,7 @@ class FoodTruckNearMeViewSet(viewsets.ViewSet):
     lat = parsedData.get('latitude', None)
     lon = parsedData.get('longitude', None)
 
-    if(not lat and not lon):
+    if(not lat or not lon):
       return Response({
         "message": "Missing required field(s) : latitude, longitude"
       }, status = 400)

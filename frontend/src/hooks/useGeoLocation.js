@@ -5,13 +5,20 @@ function useGeoLocation(callback){
   const [isLocationLoading, setIsLocationLoading] = useState(false)
   const [locationError, setLocationError] = useState(null)
 
-  function setLatLon(location){
-    callback(location.coords.latitude, location.coords.longitude)
+  async function setLatLon(location){
+    try{
+      await callback(location.coords.latitude, location.coords.longitude)
+      
+      setIsLocationLoading(false)
+      setIsLocationRequested(false)
+    }catch (err){
+      setLocationError(`Error : ${err.message}`)
+    }
   }
 
   function setErrors(error){
     if(error.code === error.PERMISSION_DENIED){
-      setLocationError("Permission denied by user")
+      setLocationError("Location permission denied by user, please enable it from site-settings!")
     }else if(error.code === error.POSITION_UNAVAILABLE){
       setLocationError("Unable to access user-location")
     }else if(error.code === error.TIMEOUT){
@@ -22,15 +29,14 @@ function useGeoLocation(callback){
   }
 
   useEffect(() => {
-    console.log("Here")
     if(isLocationRequested){
+      setLocationError(null)
+      setIsLocationLoading(true)
       if(navigator.geolocation){
         navigator.geolocation.getCurrentPosition(setLatLon, setErrors)
       }else{
         setLocationError("Browser doesnot support this feature")
       }
-      setIsLocationLoading(false)
-      setIsLocationRequested(false)
     }
   }, [isLocationRequested])
 
