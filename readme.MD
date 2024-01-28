@@ -32,7 +32,7 @@
     cd ../backend
     ```
   - Initialize virtualenv
-    > If you donot already have `python-virtualenv` package, install it
+    > If you donot already have `virtualenv` package, install it
     > ```
     > pip install virtualenv
     > ``` 
