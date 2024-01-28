@@ -69,7 +69,7 @@
   - Create an admin user
     > Add password and email if asked
     ```
-    python3 manage.py createsuperuser -u <your-username>
+    python3 manage.py createsuperuser --username <your-username>
     ```
     This is a superuser, you can access the Web-API interface to alter data
   - Run django application using below commands
