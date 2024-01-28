@@ -10,11 +10,11 @@ const API_POST_FOODTRUCKS = "/foodtrucksnearme/?format=json"
 
 function App() {
   const [ foodTrucks, setFoodTrucks ] = useState([])
-  const [ isLoading, setIsLoding ] = useState(false)
   const [ fetchedRes, setFetchedRes ] = useState(false)
   const [ isError, setIsError ] = useState(null)
 
   const getFoodTrucks = async (lat, lon) => {
+    setIsError(null)
     try{
       const request = await axios.post(API_POST_FOODTRUCKS, {
         "latitude" : lat,
@@ -22,6 +22,7 @@ function App() {
       })
       const data = request.data
       setFoodTrucks(data.data.foodTrucks)
+      setFetchedRes(true)
     } catch(err){
       console.log(err)
       setIsError(err?.message || "Unknown error occured")

@@ -12,6 +12,8 @@ class FoodTruckViewSet(viewsets.ModelViewSet):
   permission_classes = [ permissions.IsAdminUser ]
 
 class FoodTruckNearMeViewSet(viewsets.ViewSet):
+  permission_classes = [ permissions.AllowAny ]
+
   # POST request
   def create(self, request):
     rawData = request.body

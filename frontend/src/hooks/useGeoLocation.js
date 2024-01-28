@@ -1,15 +1,11 @@
 import { useState, useEffect } from "react"
 
 function useGeoLocation(callback){
-  const [lat, setLat] = useState(null)
-  const [lon, setLon] = useState(null)
   const [isLocationRequested, setIsLocationRequested] = useState(false)
   const [isLocationLoading, setIsLocationLoading] = useState(false)
   const [locationError, setLocationError] = useState(null)
 
   function setLatLon(location){
-    setLat(location.coords.latitude)
-    setLon(location.coords.longitude)
     callback(location.coords.latitude, location.coords.longitude)
   }
 
@@ -39,7 +35,7 @@ function useGeoLocation(callback){
   }, [isLocationRequested])
 
   return {
-    lat, lon, isLocationLoading, locationError, setIsLocationRequested, isLocationRequested
+    isLocationLoading, locationError, setIsLocationRequested, isLocationRequested
   }
 }
 
